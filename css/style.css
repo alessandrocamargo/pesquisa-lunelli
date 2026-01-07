@@ -8,6 +8,8 @@
 body {
   background: #f4f6f8;
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 /* HEADER */
@@ -23,6 +25,8 @@ header {
 /* CONTAINER */
 .container {
   min-height: calc(100vh - 80px);
+  max-width: 900px;
+  margin: 60px auto;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -30,6 +34,25 @@ header {
   padding-top: 60px;
   padding-bottom: 60px;
 }
+.container.full-width {
+  width: 100vw;          /* força largura da viewport */
+  max-width: none;       /* remove qualquer limite */
+  margin: 0;             /* REMOVE espaçamento lateral */
+  padding: 20px;         /* padding interno controlado */
+}
+
+.container.full-width .card {
+  width: 100%;
+  max-width: none;
+  padding: 30px;
+}
+
+.container.full-width .table-container {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+}
+
+
 
 /* CARD */
 .card {

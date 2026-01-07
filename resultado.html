@@ -7,19 +7,22 @@
   </head>
   <body>
     <header> <img src="https://lunelli.com.br/site/wp-content/uploads/2021/05/LogoLunelli_branca.svg" alt="LogoLunelli_branca"></header>
-    <div class="container">
-      <div class="card">
-        <h2>Resultados</h2>
-        <div class="table-container">
-          <table id="tabela"></table>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-success" onclick="exportCSV()">Exportar CSV</button>
-          <button class="btn btn-primary" onclick="exportXLS()">Exportar XLS</button>
-          <a href="index.html" class="btn btn-secondary">Voltar</a>
-        </div>
-      </div>
+    <div class="container full-width">
+  <div class="card">
+    <h2>Resultados</h2>
+
+    <div class="table-container">
+      <table id="tabela"></table>
     </div>
+
+    <div class="btn-group">
+      <button class="btn btn-success" onclick="exportCSV()">Exportar CSV</button>
+      <button class="btn btn-primary" onclick="exportXLS()">Exportar XLS</button>
+      <a href="index.html" class="btn btn-secondary">Voltar</a>
+    </div>
+  </div>
+</div>
+
 <script src="js/app.js"></script>
 </body>
 </html>
