@@ -92,7 +92,10 @@ if (form) {
       bloco.className = "question-block";
 
       bloco.innerHTML = `
-        <label class="question-title">${p}</label>
+        <label class="question-title">
+          ${index + 1}/${perguntas.length} – ${p}
+        </label>
+
 
         <div class="range-group">
           <span>0</span>

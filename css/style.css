@@ -35,10 +35,10 @@ header {
   padding-bottom: 60px;
 }
 .container.full-width {
-  width: 100vw;          /* força largura da viewport */
-  max-width: none;       /* remove qualquer limite */
-  margin: 0;             /* REMOVE espaçamento lateral */
-  padding: 20px;         /* padding interno controlado */
+  width: 100vw;          
+  max-width: none;       
+  margin: 0;             
+  padding: 20px;         
 }
 
 .container.full-width .card {
@@ -160,6 +160,8 @@ tbody tr:nth-child(even) {
   background: #fef3c7;
   color: #92400e;
 }
+
+/* QUESTION BLOCKS */
 .question-block {
   margin-bottom: 30px;
 }
@@ -169,6 +171,13 @@ tbody tr:nth-child(even) {
   font-weight: 600;
   margin-bottom: 10px;
 }
+
+.question-title span {
+  color: #2563eb;
+  font-weight: bold;
+  margin-right: 6px;
+}
+
 
 .range-group {
   display: flex;
