@@ -80,67 +80,131 @@ if (fileInput) {
  * FORMULÁRIO (formulario.html)
  ************************************************/
 const form = document.getElementById("formulario");
+const container = document.getElementById("questionContainer");
+const progressBar = document.getElementById("progressBar");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
 
-if (form) {
-  const perguntas = getPerguntas();
+if (form && container) {
+  const perguntas = JSON.parse(localStorage.getItem("perguntas")) || [];
+  let respostas = {};
+  let indexAtual = 0;
 
   if (!perguntas.length) {
-    form.innerHTML = "<p class='alert alert-warning'>Nenhuma pergunta carregada.</p>";
+    container.innerHTML = "<p>Nenhuma pergunta carregada.</p>";
   } else {
-    perguntas.forEach((p, index) => {
-      const bloco = document.createElement("div");
-      bloco.className = "question-block";
+    renderPergunta();
+    atualizarProgresso();
+  }
 
-      bloco.innerHTML = `
+  function renderPergunta() {
+    const total = perguntas.length;
+    const pergunta = perguntas[indexAtual];
+
+    container.className = "fade";
+    container.innerHTML = `
+      <div class="question-block">
         <label class="question-title">
-          ${index + 1}/${perguntas.length} – ${p}
+          ${indexAtual + 1}/${total} – ${pergunta}
         </label>
-
-
+        
         <div class="range-group">
           <span>0</span>
-          <input type="range" min="0" max="10" value="5" name="nota_${index}"
+          <input type="range" min="0" max="10"
+            value="${respostas[indexAtual]?.nota ?? 5}"
             oninput="this.nextElementSibling.textContent=this.value">
-          <span class="range-value">5</span>
+          <span class="range-value">
+            ${respostas[indexAtual]?.nota ?? 5}
+          </span>
           <span>10</span>
         </div>
 
-        <textarea
-          name="comentario_${index}"
-          placeholder="Comentário (opcional)"
-          rows="3"></textarea>
-      `;
+        <textarea placeholder="Comentário (opcional)"
+          rows="3">${respostas[indexAtual]?.comentario ?? ""}</textarea>
+      </div>
+    `;
 
-      form.appendChild(bloco);
-    });
 
-    const btn = document.createElement("button");
-    btn.type = "submit";
-    btn.className = "btn btn-success";
-    btn.textContent = "Enviar Respostas";
-    form.appendChild(btn);
+    
+    // Desativa botão Voltar na primeira pergunta
+    prevBtn.disabled = indexAtual === 0;
+    prevBtn.style.opacity = indexAtual === 0 ? "0.5" : "1";
+    prevBtn.style.cursor = indexAtual === 0 ? "not-allowed" : "pointer";
+
   }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  // função para mostrar o progresso textual com percentual
+  function atualizarProgresso() {
+    const atual = indexAtual + 1;
+    const total = perguntas.length;
+    const percentual = Math.round((atual / total) * 100);
+    progressBar.style.width = percentual + "%";
+    progressText.innerHTML = `
+  Pergunta ${atual} de ${total}
+  <span class="percentual">(${percentual}%)</span>
+`;
 
-    const respostas = getRespostas();
-    const registro = {};
+  }
 
-    perguntas.forEach((p, i) => {
-      registro[p] = {
-        nota: e.target[`nota_${i}`].value,
-        comentario: e.target[`comentario_${i}`].value
-      };
-    });
 
-    respostas.push(registro);
-    setRespostas(respostas);
+  /* função original para a barra de progresso
+    function atualizarProgresso() {
+      const percentual = ((indexAtual + 1) / perguntas.length) * 100;
+      progressBar.style.width = percentual + "%";
+   }
+  */
 
-    alert("Respostas salvas com sucesso!");
-    e.target.reset();
+  /* Função para mostar o progresso textual
+   function atualizarProgresso() {
+   const atual = indexAtual + 1;
+   const total = perguntas.length;
+   const percentual = (atual / total) * 100;
+  */
+
+  function salvarResposta() {
+    const range = container.querySelector("input[type=range]");
+    const textarea = container.querySelector("textarea");
+
+    respostas[indexAtual] = {
+      nota: range.value,
+      comentario: textarea.value
+    };
+  }
+
+  nextBtn.addEventListener("click", () => {
+    const range = container.querySelector("input[type=range]");
+    if (!range) return;
+
+    salvarResposta();
+
+    if (range.value === "") {
+      alert("Responda a pergunta antes de avançar.");
+      return;
+    }
+
+    if (indexAtual < perguntas.length - 1) {
+      indexAtual++;
+      renderPergunta();
+      atualizarProgresso();
+    } else {
+      const respostasSalvas = JSON.parse(localStorage.getItem("respostas")) || [];
+      respostasSalvas.push(respostas);
+      localStorage.setItem("respostas", JSON.stringify(respostasSalvas));
+      alert("Pesquisa finalizada com sucesso!");
+      window.location.href = "resultado.html";
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (indexAtual > 0) {
+      salvarResposta();
+      indexAtual--;
+      renderPergunta();
+      atualizarProgresso();
+    }
   });
 }
+
 
 /************************************************
  * RESULTADOS (resultado.html)

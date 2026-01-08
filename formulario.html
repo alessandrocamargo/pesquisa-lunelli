@@ -9,8 +9,18 @@
     <header><a href="https://lunelli.com.br" target="_blank"><img src="https://lunelli.com.br/site/wp-content/uploads/2021/05/LogoLunelli_branca.svg" alt="LogoLunelli_branca"></a></header>
     <div class="container">
         <div class="card">
-          <h2>Formulário</h2>
-          <form id="formulario"></form>
+          <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div id="progressText" class="progress-text"></div>
+          <form id="formulario">
+            <div id="questionContainer"></div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary" id="prevBtn">Voltar</button>
+              <button type="button" class="btn btn-primary" id="nextBtn">Próxima</button>
+            </div>
+          </form>
+
         </div>
     </div>
 
